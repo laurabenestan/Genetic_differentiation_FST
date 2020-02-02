@@ -1,4 +1,5 @@
 # Genetic_differentiation_FST
+
 Calculate Weir and Cockram FST using assigner package available in R.
 To download and install **assigner** package see [Thierry Gosselin github] (https://github.com/thierrygosselin/assigner)
 
