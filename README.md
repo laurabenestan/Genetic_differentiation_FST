@@ -76,8 +76,9 @@ g1 <- ggplot(data=fst_df, aes(fst_df$FST)) +
                  col="black", 
                  fill="black", 
                  alpha=.2)+
-  xlab("FST values between species")+
-  ylab("Number of SNPs")
+  xlab("FST values across populations")+
+  ylab("Number of SNPs")+
+  theme_classic()
 ```
 
 ### Save the Fst graph
@@ -97,17 +98,35 @@ summary(fst_df)
 
 ### Check the quantile
 ``` r
-quantile(fst_markers$FST, c(.1,.90))
+quantile(fst_df$FST, c(.01,.99))
 ```
 
 ### Subset the loci related to the quantile values
 ``` r
-outliers_90 <- subset(fst_markers, subset=fst_markers$FST>0.64)
+outliers_99 <- subset(fst_df, subset=fst_df$FST>0.827055)
 ```
 
 ### Save results
 ``` r
-write.table(as.data.frame(outliers_90), "Outliers_90.txt",quote=FALSE, row.names=FALSE, sep="\t") 
+write.table(as.data.frame(outliers_99), "Outliers_99.txt",quote=FALSE, row.names=FALSE, sep="\t") 
 save.image(file = "Fst_sebastes.RData")
+```
+
+### Create a dendrogram
+``` r
+hc= hclust(dist(fst))
+ggdendrogram(hc, theme_dendro=F, color= "black", size=6,rotate = TRUE)+
+  theme(axis.text.x=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.y=element_blank(),
+        panel.background=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank())
+```
+
+### Save the dendrogram
+``` r
+ggsave("Dendrogram.pdf", width=5, height=5)
 ```
 
